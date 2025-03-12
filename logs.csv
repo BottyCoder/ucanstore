@@ -1869,3 +1869,81 @@
 2025-03-12T13:27:01+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
 2025-03-12T13:27:01+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
 2025-03-12T13:27:02+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBIxMjlFRDZENjNBQUREMTIyOTIA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:22:31+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:22:31+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:22:31+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:22:33+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBJFREU3RTAxRTU5N0NCRkVDRkEA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:22:34+02:00,Error storing message log,{"error":"Could not find the 'phoneNumber' column of 'messages_log' in the schema cache"}
+2025-03-12T14:24:26+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:24:26+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:24:26+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:24:27+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBIzOUYyNzg2RUZCRjJBNkRGQTUA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:25:10+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:25:10+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:25:10+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:25:10+02:00,Successfully sent message,{"response":{"status":{"code":2000,"desc":"FAILURE"}}}
+2025-03-12T14:32:25+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:32:25+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:32:25+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:32:25+02:00,Error fetching mobile_number from database,{"error":{"code":"PGRST116","details":"The result contains 0 rows","hint":null,"message":"JSON object requested, multiple (or no) rows returned"}}
+2025-03-12T14:35:08+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:35:08+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:35:08+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:35:09+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBI1NTVDQzAyNkE2NTg2NkJGODkA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:38:54+02:00,Received full request body,{"payload":{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}}
+2025-03-12T14:38:54+02:00,Received request,{}
+2025-03-12T14:38:54+02:00,Error: Missing required fields,{}
+2025-03-12T14:40:45+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:40:45+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:40:45+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:40:46+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBJGRkIwRkY2QzI5N0FFQkMyMkIA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:41:05+02:00,Received full request body,{"payload":{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}}
+2025-03-12T14:41:05+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:41:05+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:41:06+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBJGREQ1NkJGRUM5QTA5Rjc2MDAA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:41:06+02:00,Error sending message to WhatsApp API,{"error":"supabase is not defined"}
+2025-03-12T14:41:47+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:41:47+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:41:47+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:41:48+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBI3MzJCQTA1RTlEQjRENEVENzgA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T14:41:48+02:00,Error sending message to WhatsApp API,{"error":"supabase is not defined"}
+2025-03-12T14:45:54+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:45:54+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:45:54+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T14:45:56+02:00,Successfully sent message,{"response":{"responseObject":{"message_id":"wamid.HBgLMjc4MjQ1MzcxMjUVAgARGBI0QTk3QTNGMTdCMTcyN0JEMzAA"},"status":{"code":1000,"desc":"SUCCESS"}}}
+2025-03-12T15:07:26+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:07:26+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:07:26+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:07:27+02:00,Successfully sent message,{"response":{"status":{"code":2000,"desc":"FAILURE"}}}
+2025-03-12T15:09:59+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:09:59+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:09:59+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:10:00+02:00,Successfully sent message,{"response":{"status":{"code":2000,"desc":"FAILURE"}}}
+2025-03-12T15:10:08+02:00,Received full request body,{"payload":{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}}
+2025-03-12T15:10:08+02:00,Received request,{}
+2025-03-12T15:10:08+02:00,Error: Missing required fields,{}
+2025-03-12T15:11:53+02:00,Received full request body,{"payload":{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}}
+2025-03-12T15:11:53+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:11:53+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:11:54+02:00,Successfully sent message,{"response":{"status":{"code":2000,"desc":"FAILURE"}}}
+2025-03-12T15:11:55+02:00,Error storing message log,{"error":"duplicate key value violates unique constraint \"messages_log_tracking_code_key\""}
+2025-03-12T15:28:04+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:28:04+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:28:04+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:28:05+02:00,Successfully sent message,{"response":{"status":{"code":2000,"desc":"FAILURE"}}}
+2025-03-12T15:28:06+02:00,Error storing message log,{"error":"duplicate key value violates unique constraint \"messages_log_tracking_code_key\""}
+2025-03-12T15:40:50+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:40:50+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:40:50+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:41:38+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:41:38+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:41:38+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:44:10+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:44:10+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:44:10+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:47:11+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:47:11+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:47:11+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:50:16+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:50:16+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-03-12T15:50:16+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}

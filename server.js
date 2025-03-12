@@ -1,5 +1,8 @@
 const express = require("express");
 const sendwaRoute = require("./routes/sendwa");  // Import the sendwa.js route
+const wastatusRoute = require('./routes/wastatus');  // Import the wastatus route
+
+
 
 // Initialize Express App
 const app = express();
@@ -15,6 +18,7 @@ app.use("/tickets", require("./routes/tickets"));
 app.use("/notes", require("./routes/notes"));
 app.use("/associations", require("./routes/associations"));
 app.use("/automate", require("./routes/automate"));
+app.use('/wastatus', wastatusRoute);  // This will handle requests to /wastatus/status
 
 // Mount the sendwa.js route correctly (using app.use)
 app.use('/sendwa', sendwaRoute);  // This will properly handle requests to /sendwa
@@ -24,3 +28,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
