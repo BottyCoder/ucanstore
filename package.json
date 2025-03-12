@@ -1,0 +1,20 @@
+{
+  "name": "hubspot-webhook-server",
+  "version": "1.0.0",
+  "description": "A server to receive and log HubSpot webhooks",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "axios": "^1.8.1",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "moment-timezone": "^0.5.47"
+  }
+}
