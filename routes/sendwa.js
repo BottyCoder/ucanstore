@@ -1,74 +1,69 @@
-const express = require("express");
-const axios = require("axios");
-const router = express.Router();
+// routes/sendwa.js
+const express = require('express');
+const axios = require('axios');
+const { logEvent } = require('../utils/logger'); // Import your logger utility
 
-// Define the API URL and the Authorization Key for WhatsApp API
-const WHATSAPP_API_URL = "https://api.botforce.co.za/whatsapp-api/v1.0/customer/105371/bot/4431d1b02b28478a/template";
-const AUTHORIZATION_KEY = "Basic c06f274b-00b5-41f1-99b2-5f9bcf4c3b19-HG8QpsL";
+const router = express.Router();  // Correct router initialization
 
-// Route for sending WhatsApp messages through Glitch
-router.post("/sendwa", async (req, res) => {
-  try {
-    // Extract necessary data from the incoming webhook request
-    const { phoneNumber, message, flowPostback } = req.body;
+// Define POST route to handle incoming request for sending WhatsApp messages
+router.post('/', (req, res) => { // No need for '/sendwa' here, express automatically uses it when mounting
+  const { phoneNumber, message } = req.body;  // Extract phone number and message
 
-    if (!phoneNumber || !message || !flowPostback) {
-      return res.status(400).json({ error: "Missing required fields: phoneNumber, message, or flowPostback." });
-    }
+  logEvent('Received request', { phoneNumber, message });  // Log incoming request
 
-    // Prepare the payload for the WhatsApp API request
-    const payload = {
-      payload: {
-        name: "ucanstore_outbound_customer_response",
-        components: [
-          {
-            type: "body",
-            parameters: [
-              {
-                type: "text",
-                text: message
-              }
-            ]
-          },
-          {
-            index: 0,
-            parameters: [
-              {
-                payload: `flow_${flowPostback}`,
-                type: "payload"
-              }
-            ],
-            sub_type: "quick_reply",
-            type: "button"
-          }
-        ],
-        language: {
-          code: "en_US",
-          policy: "deterministic"
-        },
-        namespace: "96c9e4e2_bffd_4ccd_ab74_49de11c2f417"
-      },
-      phoneNumber: phoneNumber
-    };
-
-    // Send the request to the WhatsApp API
-    const response = await axios.post(WHATSAPP_API_URL, payload, {
-      headers: {
-        "Authorization": AUTHORIZATION_KEY,
-        "Content-Type": "application/json"
-      }
-    });
-
-    // Log the response for debugging
-    console.log("[sendwa] WhatsApp message sent successfully:", response.data);
-
-    // Send a success response back to the webhook caller
-    res.status(200).json({ success: true, message: "WhatsApp message sent successfully." });
-  } catch (error) {
-    // Handle any errors and send a failure response
-    console.error("[sendwa] Error sending WhatsApp message:", error.response?.data || error.message);
-    res.status(500).json({ error: "Failed to send WhatsApp message." });
+  if (!phoneNumber || !message) {
+    logEvent('Error: Missing required fields', { phoneNumber, message });  // Log error if missing fields
+    return res.status(400).send('Phone number and message are required');
   }
+
+  logEvent('Proceeding with API call to WhatsApp', { phoneNumber, message });  // Log proceeding to API call
+
+  axios.post('https://api.botforce.co.za/whatsapp-api/v1.0/customer/105371/bot/4431d1b02b28478a/template', {
+    payload: {
+      name: "ucanstore_outbound_customer_response",
+      components: [
+        {
+          type: "body",
+          parameters: [
+            {
+              type: "text",
+              text: message  // Dynamically use the message provided in the request
+            }
+          ]
+        },
+        {
+          index: 0,
+          parameters: [
+            {
+              payload: "flow_BA8E475BC92A4A2F963651D388348CCC",  // Flow key
+              type: "payload"
+            }
+          ],
+          sub_type: "quick_reply",
+          type: "button"
+        }
+      ],
+      language: {
+        code: "en_US",
+        policy: "deterministic"
+      },
+      namespace: "96c9e4e2_bffd_4ccd_ab74_49de11c2f417"  // Your namespace
+    },
+    phoneNumber: phoneNumber  // Dynamic phone number from the request
+  }, {
+    headers: {
+      'Authorization': 'Basic c06f274b-00b5-41f1-99b2-5f9bcf4c3b19-HG8QpsL', // Use actual API key
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    logEvent('Successfully sent message', { response: response.data });  // Log successful API response
+    res.status(200).send('Message sent successfully');
+  })
+  .catch(error => {
+    logEvent('Error sending message to WhatsApp API', { error: error.message });  // Log error if API call fails
+    res.status(500).send('Error sending message: ' + error.message);
+  });
 });
 
-module.exports = router;
+module.exports = router;  // Export the route so it can be used in server.js

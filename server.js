@@ -1,19 +1,16 @@
+// server.js
 const express = require("express");
 const bodyParser = require("body-parser");
-const axios = require("axios");
 const fs = require("fs");
-require("dotenv").config();
 const moment = require("moment-timezone");
-const automateRoutes = require("./routes/automate");
+const sendwaRoute = require('./routes/sendwa');  // Import sendwa.js route
+require("dotenv").config();
 
-
-
-// Initialize Express App
 const app = express();
-app.use(bodyParser.json()); // ✅ Ensure middleware is applied once
+app.use(express.json());  // Express's built-in JSON body parsing middleware
 
-// Serve static files from the "public" directory
-app.use(express.static("public"));
+// Mount Routes
+app.use('/sendwa', sendwaRoute);  // Ensure this is properly mounted
 
 // ✅ Utility Function: Logging Events
 const LOGS_PATH = "./logs.csv";
@@ -24,16 +21,9 @@ const logEvent = (event, details) => {
   console.log(`[LOG] ${timestamp} - ${event}:`, details);
 };
 
-// ✅ Mount Routes
-app.use("/oauth", require("./routes/auth")); // Ensure correct route prefix
-app.use("/contacts", require("./routes/contacts"));
-app.use("/tickets", require("./routes/tickets"));
-app.use("/notes", require("./routes/notes"));
-app.use("/associations", require("./routes/associations"));
-app.use("/automate", require("./routes/automate"));
-
-
-
 // ✅ Start Server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  logEvent('Server started', { port: PORT });
+});
