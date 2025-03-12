@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create a Note by Contact Name</title>
+  </head>
+  <body>
+    <h1>Create a Note by Contact Name</h1>
+
+    <form id="noteForm">
+      <div>
+        <label for="contactName">Contact Name:</label>
+        <input type="text" id="contactName" name="contactName" required />
+      </div>
+
+      <div>
+        <label for="noteMessage">Note Message:</label>
+        <textarea id="noteMessage" name="noteMessage" rows="4" cols="50"></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <pre id="result"></pre>
+
+    <script>
+      document.getElementById("noteForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const contactName = document.getElementById("contactName").value;
+        const noteMessage = document.getElementById("noteMessage").value;
+
+        try {
+          const response = await fetch("/automate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contactName, noteMessage })
+          });
+          const data = await response.json();
+          document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+          document.getElementById("result").textContent = `Error: ${err.message}`;
+        }
+      });
+    </script>
+  </body>
+</html>
+
