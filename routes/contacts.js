@@ -3,81 +3,96 @@ const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
 const { getValidAccessToken } = require("./auth");
+const { supabase } = require("../utils/supabaseClient");
 const { logEvent } = require("../utils/logger");
 
 const HUBSPOT_API_URL = "https://api.hubapi.com";
 
-// Create Contact in HubSpot
-router.post("/create-contact", async (req, res) => {
+// Create Contact, Create Ticket, and Associate Contact with Ticket
+router.post("/create-contact-ticket", async (req, res) => {
   try {
-    const { firstname, lastname, email, phone } = req.body;
+    const { firstname, lastname, email, phone, branch, contactId } = req.body;
+
     if (!firstname || !lastname || !email) {
       return res.status(400).json({ error: "First name, last name, and email are required." });
     }
 
-    logEvent("Creating contact in HubSpot", { firstname, lastname, email, phone });
+    // Log the event for debugging
+    logEvent("Create Contact and Ticket", { firstname, lastname, email });
 
+    // Step 1: Get HubSpot Access Token
     const accessToken = await getValidAccessToken();
-    const response = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/contacts`, {
-      properties: {
-        firstname,
-        lastname,
-        email,
-        phone
+
+    // Step 2: Create Contact
+    const createContactResponse = await axios.post(
+      `${HUBSPOT_API_URL}/crm/v3/objects/contacts`,
+      {
+        properties: [
+          { property: "email", value: email },
+          { property: "firstname", value: firstname },
+          { property: "lastname", value: lastname },
+          { property: "phone", value: phone },
+          { property: "branch__forms_", value: branch }
+        ]
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
       }
-    }, { headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" } });
+    );
 
-    logEvent("Contact created successfully", { contactId: response.data.id });
-    res.json(response.data);  // Return the contact creation response
+    const createdContactId = createContactResponse.data.id;
+    logEvent("Contact Created", { contactId: createdContactId });
 
-    // Proceed to create ticket
-    await createTicket(response.data.id);
+    // Step 3: Create Ticket
+    const createTicketResponse = await axios.post(
+      `${HUBSPOT_API_URL}/crm/v3/objects/tickets`,
+      {
+        properties: [
+          { property: "subject", value: "WA Bot - Lead From Bot" },
+          { property: "content", value: "Opening ticket directly from WA Bot.. Please answer this as if it was a real lead coming in" },
+          { property: "hs_pipeline", value: "0" }, // Example pipeline ID
+          { property: "hs_pipeline_stage", value: "1" } // Example stage ID
+        ]
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const createdTicketId = createTicketResponse.data.id;
+    logEvent("Ticket Created", { ticketId: createdTicketId });
+
+    // Step 4: Associate Contact with Ticket
+    const associateContactResponse = await axios.put(
+      `${HUBSPOT_API_URL}/crm/v3/associations/tickets/${createdTicketId}/contacts/${createdContactId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    logEvent("Contact Associated with Ticket", { contactId: createdContactId, ticketId: createdTicketId });
+
+    // Step 5: Send Success Response
+    res.status(200).json({
+      message: "Contact and Ticket created and associated successfully.",
+      contactId: createdContactId,
+      ticketId: createdTicketId
+    });
   } catch (error) {
-    logEvent("Error creating contact", error);
-    res.status(500).json({ error: "Failed to create contact." });
+    console.error(error);
+    logEvent("Error in Create Contact and Ticket Process", { error: error.message });
+    res.status(500).json({ error: "Failed to create contact and ticket." });
   }
 });
-
-// Create Ticket in HubSpot
-const createTicket = async (contactId) => {
-  try {
-    logEvent("Creating ticket for contact", { contactId });
-
-    const accessToken = await getValidAccessToken();
-    const response = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/tickets`, {
-      properties: {
-        subject: "WA Bot - Lead From Bot",
-        content: "Opening ticket directly from WA Bot.. Please answer this as if it was a real lead coming in",
-        hs_pipeline: "0",  // Use correct pipeline ID
-        hs_pipeline_stage: "1"  // Stage ID for 'New'
-      }
-    }, { headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" } });
-
-    logEvent("Ticket created successfully", { ticketId: response.data.id });
-
-    // Proceed to associate ticket
-    await associateTicket(contactId, response.data.id);
-  } catch (error) {
-    logEvent("Error creating ticket", error);
-  }
-};
-
-// Associate Contact with Ticket
-const associateTicket = async (contactId, ticketId) => {
-  try {
-    logEvent("Associating ticket with contact", { contactId, ticketId });
-
-    const accessToken = await getValidAccessToken();
-    const response = await axios.put(`${HUBSPOT_API_URL}/crm/v3/objects/tickets/${ticketId}/associations/contacts/${contactId}`, {}, {
-      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" }
-    });
-
-    logEvent("Ticket successfully associated with contact", { ticketId, contactId });
-    // Send success response if everything is done
-    return response.data;
-  } catch (error) {
-    logEvent("Error associating ticket with contact", error);
-  }
-};
 
 module.exports = router;
