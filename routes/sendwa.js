@@ -1,4 +1,3 @@
-// routes/sendwa.js
 const express = require('express');
 const axios = require('axios');
 const { logEvent } = require('../utils/logger'); // Import your logger utility
