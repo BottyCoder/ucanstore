@@ -1,12 +1,11 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const sendwaRoute = require("./routes/sendwa");  // Import the sendwa.js route
 
 // Initialize Express App
 const app = express();
-app.use(bodyParser.json());  // Middleware for parsing JSON bodies
+app.use(express.json());  // Middleware for parsing JSON bodies (this is enough, no need for bodyParser)
 
-// Serve static files from the "public" directory
+  // Serve static files from the "public" directory
 app.use(express.static("public"));
 
 // ✅ Mount Routes

@@ -1,22 +1,28 @@
 const express = require('express');
 const axios = require('axios');
-const { logEvent } = require('../utils/logger'); // Import your logger utility
+const { logEvent } = require('../utils/logger'); // Importing your logger utility
 
 const router = express.Router();  // Correct router initialization
 
 // Define POST route to handle incoming request for sending WhatsApp messages
-router.post('/', (req, res) => { // No need for '/sendwa' here, express automatically uses it when mounting
-  const { phoneNumber, message } = req.body;  // Extract phone number and message
+router.post('/', (req, res) => {
+  // Log the entire incoming request to inspect it
+  logEvent('Received full request body', req.body);
+
+  // Extract the nested phoneNumber and message if payload is present
+  const { phoneNumber, message } = req.body.payload ? req.body.payload : req.body;  
 
   logEvent('Received request', { phoneNumber, message });  // Log incoming request
 
   if (!phoneNumber || !message) {
-    logEvent('Error: Missing required fields', { phoneNumber, message });  // Log error if missing fields
+    // If either phone number or message is missing, log and return error
+    logEvent('Error: Missing required fields', { phoneNumber, message });
     return res.status(400).send('Phone number and message are required');
   }
 
   logEvent('Proceeding with API call to WhatsApp', { phoneNumber, message });  // Log proceeding to API call
 
+  // Send the message to WhatsApp API with the new flow key and URL
   axios.post('https://api.botforce.co.za/whatsapp-api/v1.0/customer/105371/bot/4431d1b02b28478a/template', {
     payload: {
       name: "ucanstore_outbound_customer_response",
