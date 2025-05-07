@@ -31,11 +31,20 @@ const refreshAccessToken = async () => {
 };
 
 const getValidAccessToken = async () => {
-  let tokens = getTokens();
-  if (!tokens.access_token || (tokens.obtained_at + tokens.expires_in * 1000) < Date.now()) {
-    return await refreshAccessToken();
+  try {
+    let tokens = getTokens();
+    if (!tokens.access_token) {
+      throw new Error('No access token found');
+    }
+    
+    if ((tokens.obtained_at + tokens.expires_in * 1000) < Date.now()) {
+      return await refreshAccessToken();
+    }
+    return tokens.access_token;
+  } catch (error) {
+    console.error('Token validation error:', error.message);
+    throw new Error('Authentication required. Please reconnect to HubSpot.');
   }
-  return tokens.access_token;
 };
 
 module.exports = { getValidAccessToken }; // ✅ Ensure it's exported correctly

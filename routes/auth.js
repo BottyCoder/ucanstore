@@ -22,6 +22,13 @@ router.get("/start", (req, res) => {
 // ✅ OAuth Callback Route
 router.get("/callback", async (req, res) => {
   const authCode = req.query.code;
+  const error = req.query.error;
+  
+  if (error) {
+    console.error('OAuth error:', error);
+    return res.status(400).send(`Authorization failed: ${error}`);
+  }
+  
   if (!authCode) return res.status(400).send("Authorization code not found.");
 
   try {
