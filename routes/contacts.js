@@ -66,6 +66,56 @@ router.post("/create-contact", async (req, res) => {
 });
 
 // Create Ticket and Associate with Contact
+
+// Create Contact with Auth Check
+router.post("/create-contact-with-auth", async (req, res) => {
+  try {
+    const { firstname, lastname, email, phone, branch_forms } = req.body;
+    if (!firstname || !lastname || !email || !phone) {
+      return res.status(400).json({ error: "Missing required fields." });
+    }
+
+    let accessToken;
+    try {
+      accessToken = await getValidAccessToken();
+    } catch (error) {
+      // If token is invalid, return auth URL
+      const authUrl = `https://app.hubspot.com/oauth/authorize?client_id=${process.env.HUBSPOT_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=crm.objects.contacts.write%20oauth%20crm.objects.contacts.read&response_type=code`;
+      return res.status(401).json({ 
+        need_auth: true,
+        auth_url: authUrl
+      });
+    }
+
+    // If we have valid token, create contact
+    const response = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/contacts`, {
+      properties: {
+        firstname,
+        lastname,
+        email,
+        phone,
+        branch__forms_: branch_forms
+      }
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    const contactId = response.data.id;
+    res.json({ 
+      success: true,
+      message: "Contact created successfully.", 
+      contactId 
+    });
+
+  } catch (error) {
+    console.error("Contact Creation Error:", error.response?.data || error.message);
+    res.status(500).json({ error: "Failed to create contact." });
+  }
+});
+
 router.post("/create-ticket", async (req, res) => {
   try {
     const { subject, content, contactId } = req.body;
