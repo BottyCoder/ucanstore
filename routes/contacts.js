@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
-const { getValidAccessToken } = require("./auth");
+const { getValidAccessToken } = require("../utils/authHelper");
 const { supabase } = require("../utils/supabaseClient");
 const { logEvent } = require("../utils/logger");
 
