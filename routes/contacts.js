@@ -71,18 +71,25 @@ router.post("/create-contact", async (req, res) => {
 router.post("/create-contact-with-auth", async (req, res) => {
   let accessToken;
   try {
+    logEvent("ContactCreation_Started", { requestBody: req.body });
+    
     const { firstname, lastname, email, phone, branch_forms } = req.body;
     if (!firstname || !lastname || !email || !phone) {
+      logEvent("ContactCreation_ValidationFailed", { missingFields: Object.entries({ firstname, lastname, email, phone }).filter(([_, v]) => !v).map(([k]) => k) });
       return res.status(400).json({ error: "Missing required fields." });
     }
 
+    logEvent("ContactCreation_GettingToken", {});
     accessToken = await getValidAccessToken();
+    logEvent("ContactCreation_TokenReceived", { tokenSuccess: !!accessToken, tokenSnippet: accessToken ? accessToken.slice(0, 8) : null });
+    
     if (!accessToken) {
+      logEvent("ContactCreation_TokenFailed", {});
       return res.status(500).json({ error: "Service authentication failed" });
     }
 
     // If we have valid token, create contact
-    const response = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/contacts`, {
+    const requestBody = {
       properties: {
         firstname,
         lastname,
@@ -90,7 +97,11 @@ router.post("/create-contact-with-auth", async (req, res) => {
         phone,
         branch__forms_: branch_forms
       }
-    }, {
+    };
+    
+    logEvent("ContactCreation_SendingRequest", { requestBody });
+    
+    const response = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/contacts`, requestBody, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json"
@@ -98,11 +109,16 @@ router.post("/create-contact-with-auth", async (req, res) => {
     });
 
     const contactId = response.data.id;
-    res.json({ 
+    logEvent("ContactCreation_Success", { contactId, responseData: response.data });
+    
+    const successResponse = { 
       success: true,
       message: "Contact created successfully.", 
       contactId 
-    });
+    };
+    
+    logEvent("ContactCreation_ResponseSent", { response: successResponse });
+    res.json(successResponse);
 
   } catch (error) {
     if (error.response?.status === 409) {
