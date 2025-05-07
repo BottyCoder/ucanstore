@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const CLIENT_ID = process.env.HUBSPOT_CLIENT_ID;
 const CLIENT_SECRET = process.env.HUBSPOT_CLIENT_SECRET;
-const REDIRECT_URI = process.env.HUBSPOT_REDIRECT_URI || "https://ucanaiaws.botforce.co.za/oauth/callback";
+const REDIRECT_URI = "https://ucanaiaws.botforce.co.za/oauth/callback";
 const HUBSPOT_API_URL = "https://api.hubapi.com";
 
 // ✅ OAuth Start Route
