@@ -11,8 +11,11 @@ const HUBSPOT_API_URL = "https://api.hubapi.com";
 
 // ✅ OAuth Start Route
 router.get("/start", (req, res) => {
+  // Ensure we're using the correct redirect URI
+  const CURRENT_REDIRECT_URI = "https://ucanaiaws.botforce.co.za/oauth/callback";
+  
   const authUrl = `https://app.hubspot.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
-    REDIRECT_URI
+    CURRENT_REDIRECT_URI
   )}&scope=conversations.read%20conversations.write%20crm.objects.contacts.read%20crm.objects.contacts.write%20tickets%20oauth&response_type=code`;
 
   console.log("[OAuth] Redirecting to:", authUrl);
