@@ -16,7 +16,7 @@ router.get("/start", (req, res) => {
   
   const authUrl = `https://app.hubspot.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
     CURRENT_REDIRECT_URI
-  )}&scope=conversations.custom_channels.read%20conversations.custom_channels.write%20conversations.read%20conversations.write%20crm.objects.contacts.read%20crm.objects.contacts.write%20oauth&response_type=code`;
+  )}&scope=crm.objects.contacts.write%20oauth%20crm.objects.contacts.read&response_type=code`;
 
   console.log("[OAuth] Redirecting to:", authUrl);
   res.redirect(authUrl);
