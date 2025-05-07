@@ -104,6 +104,30 @@ router.post("/create-contact-with-auth", async (req, res) => {
     });
 
   } catch (error) {
+    if (error.response?.status === 409) {
+      // Contact already exists - get the existing contact ID
+      const existingContact = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/contacts/search`, {
+        filterGroups: [{
+          filters: [
+            { propertyName: "email", operator: "EQ", value: email }
+          ]
+        }]
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
+        }
+      });
+      
+      if (existingContact.data.results.length > 0) {
+        return res.json({
+          success: true,
+          message: "Contact already exists",
+          contactId: existingContact.data.results[0].id
+        });
+      }
+    }
+    
     console.error("Contact Creation Error:", error.response?.data || error.message);
     res.status(500).json({ error: "Failed to create contact." });
   }
