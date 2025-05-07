@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
-const { getValidAccessToken } = require("./auth"); // Import from auth
+const { getValidAccessToken } = require("../utils/authHelper");
 
 const HUBSPOT_API_URL = "https://api.hubapi.com";
 

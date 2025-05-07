@@ -69,13 +69,14 @@ router.post("/create-contact", async (req, res) => {
 
 // Create Contact with Auth Check
 router.post("/create-contact-with-auth", async (req, res) => {
+  let accessToken;
   try {
     const { firstname, lastname, email, phone, branch_forms } = req.body;
     if (!firstname || !lastname || !email || !phone) {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
-    const accessToken = await getValidAccessToken();
+    accessToken = await getValidAccessToken();
     if (!accessToken) {
       return res.status(500).json({ error: "Service authentication failed" });
     }
@@ -129,7 +130,10 @@ router.post("/create-contact-with-auth", async (req, res) => {
     }
     
     console.error("Contact Creation Error:", error.response?.data || error.message);
-    res.status(500).json({ error: "Failed to create contact." });
+    res.status(error.response?.status || 500).json({ 
+      error: error.response?.data?.message || "Failed to create contact.",
+      code: error.response?.status || 500
+    });
   }
 });
 
