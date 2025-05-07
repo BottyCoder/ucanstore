@@ -28,13 +28,17 @@ router.get("/callback", async (req, res) => {
   const error = req.query.error;
 
   if (error) {
-    console.error('OAuth error:', error);
+    console.error('[OAuth] Error:', error);
     return res.status(400).send(`Authorization failed: ${error}`);
   }
 
-  if (!authCode) return res.status(400).send("Authorization code not found.");
+  if (!authCode) {
+    console.error('[OAuth] No auth code found');
+    return res.status(400).send("Authorization code not found.");
+  }
 
   try {
+    console.log('[OAuth] Exchanging code for token with redirect URI:', REDIRECT_URI);
     const response = await axios.post("https://api.hubapi.com/oauth/v1/token", null, {
       params: {
         grant_type: "authorization_code",
