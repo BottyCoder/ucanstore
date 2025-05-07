@@ -117,7 +117,11 @@ router.post("/create-contact-with-auth", async (req, res) => {
       contactId 
     };
     
-    logEvent("ContactCreation_ResponseSent", { response: successResponse });
+    logEvent("ContactCreation_ResponseSent", { 
+      type: "NEW_CONTACT",
+      response: successResponse,
+      email: req.body.email 
+    });
     res.json(successResponse);
 
   } catch (error) {
@@ -137,11 +141,17 @@ router.post("/create-contact-with-auth", async (req, res) => {
       });
       
       if (existingContact.data.results.length > 0) {
-        return res.json({
+        const existingResponse = {
           success: true,
           message: "Contact already exists",
           contactId: existingContact.data.results[0].id
+        };
+        logEvent("ContactCreation_ExistingContact", { 
+          type: "EXISTING_CONTACT",
+          response: existingResponse,
+          email: req.body.email 
         });
+        return res.json(existingResponse);
       }
     }
     
