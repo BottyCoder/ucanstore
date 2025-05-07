@@ -75,16 +75,9 @@ router.post("/create-contact-with-auth", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields." });
     }
 
-    let accessToken;
-    try {
-      accessToken = await getValidAccessToken();
-    } catch (error) {
-      // If token is invalid, return auth URL
-      const authUrl = `https://app.hubspot.com/oauth/authorize?client_id=${process.env.HUBSPOT_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=crm.objects.contacts.write%20oauth%20crm.objects.contacts.read&response_type=code`;
-      return res.status(401).json({ 
-        need_auth: true,
-        auth_url: authUrl
-      });
+    const accessToken = await getValidAccessToken();
+    if (!accessToken) {
+      return res.status(500).json({ error: "Service authentication failed" });
     }
 
     // If we have valid token, create contact
