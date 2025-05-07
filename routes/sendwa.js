@@ -1,18 +1,51 @@
 const express = require('express');
 const axios = require('axios');
-const { logEvent } = require('../utils/logger'); // Importing your logger utility
-const { supabase } = require('../utils/supabaseClient'); // Importing the Supabase client
+const { logEvent } = require('../utils/logger');
+const { supabase } = require('../utils/supabaseClient');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment-timezone');
+const rateLimit = require('express-rate-limit');
+const Joi = require('joi');
 
-const router = express.Router();  // Correct router initialization
+const router = express.Router();
 
-// Define POST route to handle incoming request for sending WhatsApp messages
-router.post('/', async (req, res) => {  // Make the function async
-  // Log the entire incoming request to inspect it
-  logEvent('Received full request body', req.body);
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
 
-  const { phoneNumber, message, customerName, trackingCode } = req.body;  // Extract phone number, message, and other fields
+// Validation schema
+const messageSchema = Joi.object({
+  phoneNumber: Joi.string().required(),
+  message: Joi.string().required(),
+  customerName: Joi.string().allow(''),
+  trackingCode: Joi.string().allow('')
+});
+
+// API key middleware
+const validateApiKey = (req, res, next) => {
+  const apiKey = req.headers['x-api-key'];
+  if (!apiKey || apiKey !== process.env.SENDWA_API_KEY) {
+    return res.status(401).json({ error: 'Invalid API key' });
+  }
+  next();
+};
+
+// Apply rate limiting and API key validation
+router.use(limiter);
+router.use(validateApiKey);
+
+// Define POST route with validation
+router.post('/', async (req, res) => {
+  // Validate request body
+  const { error, value } = messageSchema.validate(req.body);
+  if (error) {
+    logEvent('Validation Error', { error: error.details });
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
+  const { phoneNumber, message, customerName, trackingCode } = value;  // Extract phone number, message, and other fields
 
   logEvent('Received request', { phoneNumber, message, customerName, trackingCode });  // Log incoming request
 
@@ -134,4 +167,4 @@ router.post('/', async (req, res) => {  // Make the function async
   }
 });
 
-module.exports = router;  // Export the route so it can be used in server.js
+module.exports = router;
