@@ -109,7 +109,7 @@ router.post("/create-contact-with-auth", async (req, res) => {
       const existingContact = await axios.post(`${HUBSPOT_API_URL}/crm/v3/objects/contacts/search`, {
         filterGroups: [{
           filters: [
-            { propertyName: "email", operator: "EQ", value: email }
+            { propertyName: "email", operator: "EQ", value: req.body.email }
           ]
         }]
       }, {
