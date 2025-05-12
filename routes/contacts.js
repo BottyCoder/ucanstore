@@ -33,7 +33,40 @@ router.post("/lookup-contact", async (req, res) => {
   }
 });
 
-// Create Contact
+/**
+ * @swagger
+ * /contacts/create-contact:
+ *   post:
+ *     summary: Create a new contact
+ *     tags: [Contacts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstname
+ *               - lastname
+ *               - email
+ *               - phone
+ *             properties:
+ *               firstname:
+ *                 type: string
+ *               lastname:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               branch_forms:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contact created successfully
+ *       500:
+ *         description: Server error
+ */
 router.post("/create-contact", async (req, res) => {
   try {
     const { firstname, lastname, email, phone, branch_forms } = req.body;

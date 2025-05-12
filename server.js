@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const specs = require('./swagger');
 const sendwaRoute = require("./routes/sendwa");  // Import the sendwa.js route
 const wastatusRoute = require('./routes/wastatus');  // Import the wastatus route
 
@@ -6,7 +8,8 @@ const wastatusRoute = require('./routes/wastatus');  // Import the wastatus rout
 
 // Initialize Express App
 const app = express();
-app.use(express.json());  // Middleware for parsing JSON bodies (this is enough, no need for bodyParser)
+app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));  // Middleware for parsing JSON bodies (this is enough, no need for bodyParser)
 
   // Serve static files from the "public" directory
 app.use(express.static("public"));
