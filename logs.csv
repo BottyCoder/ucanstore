@@ -1947,3 +1947,5 @@
 2025-03-12T15:50:16+02:00,Received full request body,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
 2025-03-12T15:50:16+02:00,Received request,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
 2025-03-12T15:50:16+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"27824537125","message":"Hubspot Webhook Version2"}
+2025-05-12T05:13:22+02:00,Received request,{"phoneNumber":"+27824537125","message":"Hello from the API!","customerName":"John Doe","trackingCode":"optional-tracking-code"}
+2025-05-12T05:13:22+02:00,Proceeding with API call to WhatsApp,{"phoneNumber":"+27824537125","message":"Hello from the API!"}
