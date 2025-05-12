@@ -5,7 +5,7 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'WhatsApp Integration API',
+      title: 'SendWA API Documentation',
       version: '1.0.0',
       description: 'API for sending WhatsApp messages through Botforce integration',
     },
@@ -13,7 +13,7 @@ const options = {
       {
         url: 'https://ucanaiaws.botforce.co.za',
         description: 'Production server',
-      },
+      }
     ],
     components: {
       securitySchemes: {
@@ -21,20 +21,17 @@ const options = {
           type: 'apiKey',
           in: 'header',
           name: 'x-api-key',
-          description: 'API key for authentication'
+          description: 'API key for authentication (Required)'
         }
       }
     },
     paths: {
       '/sendwa': {
         post: {
+          tags: ['WhatsApp'],
           summary: 'Send WhatsApp Message',
           description: 'Sends a WhatsApp message to a specified phone number',
-          security: [
-            {
-              ApiKeyAuth: []
-            }
-          ],
+          security: [{ ApiKeyAuth: [] }],
           requestBody: {
             required: true,
             content: {
@@ -114,7 +111,7 @@ const options = {
       }
     }
   },
-  apis: ['./routes/*.js'],
+  apis: ['./routes/sendwa.js'],
 };
 
 const specs = swaggerJsdoc(options);
