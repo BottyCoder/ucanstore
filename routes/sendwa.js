@@ -26,6 +26,8 @@ const messageSchema = Joi.object({
 // API key middleware
 const validateApiKey = (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
+  console.log('Received API key:', apiKey);
+  console.log('Expected API key:', process.env.SENDWA_API_KEY);
   if (!apiKey || apiKey !== process.env.SENDWA_API_KEY) {
     return res.status(401).json({ error: 'Invalid API key' });
   }
