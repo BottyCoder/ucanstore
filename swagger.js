@@ -43,7 +43,7 @@ const options = {
                     phoneNumber: {
                       type: 'string',
                       description: 'Recipient phone number with country code',
-                      example: '+27824537125'
+                      example: '+27123456789'
                     },
                     message: {
                       type: 'string',
@@ -57,8 +57,8 @@ const options = {
                     },
                     trackingCode: {
                       type: 'string',
-                      description: 'Optional tracking code for message',
-                      example: 'order-123'
+                      description: 'Unique identifier from the sending system used to track message delivery and responses',
+                      example: 'message-123'
                     }
                   }
                 }
@@ -79,7 +79,7 @@ const options = {
                       },
                       tracking_code: {
                         type: 'string',
-                        example: 'order-123'
+                        example: 'message-123'
                       },
                       wa_id: {
                         type: 'string',
